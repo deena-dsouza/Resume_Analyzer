@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Seeker - Skills Analysis</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color:#b3e5fc;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        h1 {
+            color: #0056b3;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        /* Form Styling */
+        form {
+            background-color:white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+            color: #0056b3;
+        }
+
+        textarea,
+        input[type="file"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.4s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        /* Skills Sections */
+        .skills-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .skills-section {
+            flex: 1;
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .skills-section h2 {
+            color: #0056b3;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            text-align: center;
+            border-bottom: 2px solid #0056b3;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        li {
+            background-color: #e9f7fd;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            color: #333;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        li:hover {
+            background-color: #b3e5fc;
+        }
+
+        li::before {
+            content: "✔";
+            color: #28a745;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .missing li::before {
+            content: "✖";
+            color: #dc3545;
+        }
+
+        /* Back to Home Link */
+        .back-home {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-home a {
+            text-decoration: none;
+            color: #0077b6;
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .back-home a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .skills-container {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .skills-section {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Job Seeker - Skills Analysis</h1>
+    <form action="/seeker" method="POST" enctype="multipart/form-data">
+        <label for="job_description">Job Description:</label>
+        <textarea name="job_description" id="job_description" rows="5" required placeholder="Enter the job description here..."></textarea>
+
+        <label for="resume_file">Upload Resume (PDF,DOCX,TXT):</label>
+        <input type="file" name="resume_file" accept=".pdf, .docx, .txt" required>
+
+        <input type="submit" value="Analyze Skills">
+    </form>
+
+    {% if present_skills or missing_skills %}
+    <div class="skills-container">
+        {% if present_skills %}
+        <div class="skills-section">
+            <h2>Present Skills</h2>
+            <ul>
+                {% for skill in present_skills %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if missing_skills %}
+        <div class="skills-section">
+            <h2>Missing Skills</h2>
+            <ul class="missing">
+                {% for skill in missing_skills %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="back-home">
+        <a href="/">&larr; Back to Home</a>
+    </div>
+</body>
+</html>
